@@ -24,31 +24,14 @@
         .overlay-screen { position: fixed; inset: 0; z-index: 2000; background: var(--bg-page); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.8s ease; }
         .hidden { display: none !important; opacity: 0; pointer-events: none; }
         
-        /* Modal for the Tour Iframe */
-       <div id="tour-modal" class="overlay-screen hidden">
-    <button class="close-tour-btn" onclick="closeTour()" style="
-        position: absolute; 
-        top: 20px; 
-        right: 20px; 
-        z-index: 3100; 
-        width: 44px; 
-        height: 44px; 
-        background: var(--accent); 
-        color: white; 
-        border: none; 
-        border-radius: 50%; 
-        font-weight: 800; 
-        font-size: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-        cursor: pointer;">✕</button>
-        
-    <iframe id="tour-iframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-</div>
+        #tour-modal { z-index: 3000; background: white; }
+        .close-tour-btn { 
+            position: absolute; top: 20px; right: 20px; z-index: 3100; 
+            padding: 12px 20px; background: var(--accent); color: white; 
+            border: none; border-radius: 50px; font-weight: 800; font-size: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer;
+        }
 
-        /* --- WELCOME PAGE --- */
         .main-card { width: 90%; height: 92%; background: #F2F5F7; border-radius: 40px; padding: 15px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .carousel-viewport { width: 100%; height: 62%; border-radius: 35px; position: relative; overflow: hidden; }
         .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; background-size: cover; background-position: center; }
@@ -73,11 +56,9 @@
         .get-started-btn { width: 100%; height: 75px; background: var(--accent); color: white; border: none; border-radius: 40px; font-size: 19px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding-right: 70px; position: relative; cursor: pointer; }
         .btn-arrow-circle { position: absolute; right: 10px; width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-        /* --- TUTORIAL --- */
         .tutorial-video-box { width: 100%; max-width: 400px; aspect-ratio: 16/9; background: #111; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; gap: 12px; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
         .skip-btn-aesthetic { margin-top: 15px; padding: 12px 35px; border: 1.5px solid #ddd; border-radius: 50px; color: #777; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; background: transparent; cursor: pointer; transition: all 0.3s ease; }
 
-        /* --- UI ELEMENTS --- */
         .nav-bar { position: fixed; bottom: 50px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
         .cam-btn { width: 70px; height: 70px; border-radius: 50%; background: #ffffff; border: 4px solid #eee; display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .cam-btn.active { border-color: var(--accent); background: var(--accent); }
@@ -238,12 +219,11 @@
         initExperience();
     }
 
-    // NEW: Function to close tour and return to scanner
     function closeTour() {
         const modal = document.getElementById('tour-modal');
         const iframe = document.getElementById('tour-iframe');
         modal.classList.add('hidden');
-        iframe.src = ""; // Stop the tour in background
+        iframe.src = ""; 
         document.getElementById('gps-status').innerText = "SCANNING...";
     }
 
@@ -269,7 +249,6 @@
                 card.classList.add('found');
                 card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
                 
-                // UPDATED: Open in iframe instead of leaving page
                 setTimeout(() => { 
                     const modal = document.getElementById('tour-modal');
                     const iframe = document.getElementById('tour-iframe');
