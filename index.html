@@ -25,13 +25,28 @@
         .hidden { display: none !important; opacity: 0; pointer-events: none; }
         
         /* Modal for the Tour Iframe */
-        #tour-modal { z-index: 3000; background: white; }
-        .close-tour-btn { 
-            position: absolute; top: 20px; right: 20px; z-index: 3100; 
-            padding: 12px 20px; background: var(--accent); color: white; 
-            border: none; border-radius: 50px; font-weight: 800; font-size: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer;
-        }
+       <div id="tour-modal" class="overlay-screen hidden">
+    <button class="close-tour-btn" onclick="closeTour()" style="
+        position: absolute; 
+        top: 20px; 
+        right: 20px; 
+        z-index: 3100; 
+        width: 44px; 
+        height: 44px; 
+        background: var(--accent); 
+        color: white; 
+        border: none; 
+        border-radius: 50%; 
+        font-weight: 800; 
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+        cursor: pointer;">✕</button>
+        
+    <iframe id="tour-iframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+</div>
 
         /* --- WELCOME PAGE --- */
         .main-card { width: 90%; height: 92%; background: #F2F5F7; border-radius: 40px; padding: 15px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
