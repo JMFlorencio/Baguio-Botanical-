@@ -19,68 +19,62 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
 
-     /* --- FLASH SPLASH SCREEN --- */
-/* --- FLASH SPLASH SCREEN --- */
-#splash-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 9999; 
-    background: var(--accent); /* Now uses your #00A699 Teal */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.6s ease;
-}
+        /* --- FLASH SPLASH SCREEN --- */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999; 
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease;
+        }
 
-.splash-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
+        .splash-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
 
-.splash-logo {
-    width: 300px; /* Adjusted from 400px for better mobile scaling */
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: logoEnter 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+        .splash-logo {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: logoEnter 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-.splash-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    /* This makes your colored logo pure white */
-    filter: brightness(0) invert(1); 
-}
+        .splash-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1); 
+        }
 
-.splash-text {
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 50px;
-    font-weight: 900;
-    color: #FFFFFF; /* Changed to white for contrast */
-    letter-spacing: 5px;
-    margin: 0;
-    opacity: 0;
-    transform: translateY(10px);
-    animation: textFadeUp 0.6s ease forwards 0.4s;
-}
+        .splash-text {
+            font-size: 50px;
+            font-weight: 900;
+            color: #FFFFFF;
+            letter-spacing: 5px;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: textFadeUp 0.6s ease forwards 0.4s;
+        }
 
-/* --- ANIMATIONS --- */
-@keyframes logoEnter {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
+        @keyframes logoEnter {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
 
-/* Note: Pulse was removed as it usually looks better static on colored backgrounds, 
-   but you can add it back if you'd like! */
+        @keyframes textFadeUp {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
 
-@keyframes textFadeUp {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
         /* --- APP STYLES --- */
         video { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; object-fit: cover !important; z-index: -5 !important; }
 
@@ -292,7 +286,7 @@
         </div>
     </div>
 
-    <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: false; uiLoading: no; uiScanning: no;" embedded renderer="transparent: true; alpha: true;" vr-mode-ui="enabled: false">
+    <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: true; uiLoading: no; uiScanning: no;" embedded renderer="transparent: true; alpha: true; colorManagement: true;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
         <a-entity id="target-container"></a-entity>
     </a-scene>
@@ -305,7 +299,7 @@
             splash.style.opacity = '0';
             setTimeout(() => {
                 splash.style.display = 'none';
-                startCarousel(); // Start animations after splash is gone
+                startCarousel(); 
             }, 600);
         }, 2500); 
     });
@@ -371,12 +365,16 @@
         const root = document.getElementById('gallery-root');
         const container = document.getElementById('target-container');
         
+        root.innerHTML = ''; // Clear to prevent duplication
+
         stations.forEach((s, i) => {
+            // Add UI Cards
             root.innerHTML += `<div class="station-card" id="card-${i}">
                 <div style="height:70%;"><img src="${s.thumb}" style="width:100%; height:100%; object-fit:cover;"></div>
                 <div style="font-size:9px; text-align:center; padding:10px 5px; font-weight:800; color:#444;">${s.name.toUpperCase()}</div>
             </div>`;
 
+            // Create AR Logic
             const entity = document.createElement('a-entity');
             entity.setAttribute('mindar-image-target', `targetIndex: ${i}`);
             
@@ -399,7 +397,6 @@
             container.appendChild(entity);
         });
 
-        document.querySelector('a-scene').systems['mindar-image-system'].start();
         initDraggable();
     }
 
