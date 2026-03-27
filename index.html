@@ -13,7 +13,7 @@
             --accent: #00A699; 
             --glass: rgba(255, 255, 255, 0.9); 
             --blur: blur(20px); 
-            --bg-page: #E9EDF0; /* Matching screenshot background */
+            --bg-page: #E9EDF0;
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -24,26 +24,18 @@
         .overlay-screen { position: fixed; inset: 0; z-index: 2000; background: var(--bg-page); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.8s ease; }
         .hidden { display: none !important; opacity: 0; pointer-events: none; }
         
-        /* --- UPDATED WELCOME PAGE --- */
-        .main-card { 
-            width: 90%; 
-            height: 92%; 
-            background: #F2F5F7; 
-            border-radius: 40px; 
-            padding: 15px;
-            display: flex; 
-            flex-direction: column; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+        /* Modal for the Tour Iframe */
+        #tour-modal { z-index: 3000; background: white; }
+        .close-tour-btn { 
+            position: absolute; top: 20px; right: 20px; z-index: 3100; 
+            padding: 12px 20px; background: var(--accent); color: white; 
+            border: none; border-radius: 50px; font-weight: 800; font-size: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer;
         }
 
-        .carousel-viewport { 
-            width: 100%; 
-            height: 62%; 
-            border-radius: 35px; 
-            position: relative; 
-            overflow: hidden; 
-        }
-
+        /* --- WELCOME PAGE --- */
+        .main-card { width: 90%; height: 92%; background: #F2F5F7; border-radius: 40px; padding: 15px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .carousel-viewport { width: 100%; height: 62%; border-radius: 35px; position: relative; overflow: hidden; }
         .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; background-size: cover; background-position: center; }
         .slide.active { opacity: 1; }
         
@@ -51,96 +43,22 @@
         #slide2 { background-image: url('Assets/A1_Map.jpg'); }
         #slide3 { background-image: url('Assets/Cordillera%20Village.png'); }
 
-        /* Floating Labels */
-        .floating-badge {
-            position: absolute;
-            top: 230px; 
-            left: 20px;
-            background: var(--accent);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            z-index: 10;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .hero-info-overlay {
-            position: absolute;
-            bottom: 30px;
-            left: 20px;
-            color: white;
-            z-index: 5;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
+        .floating-badge { position: absolute; top: 230px; left: 20px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; z-index: 10; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hero-info-overlay { position: absolute; bottom: 30px; left: 20px; color: white; z-index: 5; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .hero-info-overlay h2 { font-size: 28px; margin: 0; font-weight: 800; }
         .hero-info-overlay p { font-size: 13px; margin: 5px 0 0; opacity: 0.9; }
 
-        /* Carousel Indicators */
-        .indicators { 
-            position: absolute; 
-            bottom: 20px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            display: flex; 
-            gap: 6px; 
-            z-index: 10;
-        }
+        .indicators { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 10; }
         .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.4); border-radius: 50%; transition: 0.3s; }
         .dot.active { width: 22px; background: var(--accent); border-radius: 10px; }
 
-        /* Bottom Text Area */
-        .hero-text-area { 
-            flex: 1; 
-            padding: 30px 20px; 
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-        }
+        .hero-text-area { flex: 1; padding: 30px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .hero-title { font-size: 26px; font-weight: 800; color: #222; margin-bottom: 40px; line-height: 1.2; }
 
-        .hero-title { 
-            font-size: 26px; 
-            font-weight: 800; 
-            color: #222; 
-            margin-bottom: 40px; 
-            line-height: 1.2; 
-        }
+        .get-started-btn { width: 100%; height: 75px; background: var(--accent); color: white; border: none; border-radius: 40px; font-size: 19px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding-right: 70px; position: relative; cursor: pointer; }
+        .btn-arrow-circle { position: absolute; right: 10px; width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-        /* Get Started Button with Circle Arrow */
-        .get-started-btn { 
-            width: 100%; 
-            height: 75px; 
-            background: var(--accent); 
-            color: white; 
-            border: none; 
-            border-radius: 40px; 
-            font-size: 19px; 
-            font-weight: 700; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding-right: 70px; /* Space for the circle */
-            position: relative;
-            cursor: pointer;
-        }
-
-        .btn-arrow-circle {
-            position: absolute;
-            right: 10px;
-            width: 55px;
-            height: 55px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* --- TUTORIAL STYLES --- */
+        /* --- TUTORIAL --- */
         .tutorial-video-box { width: 100%; max-width: 400px; aspect-ratio: 16/9; background: #111; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; gap: 12px; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
         .skip-btn-aesthetic { margin-top: 15px; padding: 12px 35px; border: 1.5px solid #ddd; border-radius: 50px; color: #777; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; background: transparent; cursor: pointer; transition: all 0.3s ease; }
 
@@ -167,6 +85,11 @@
 <body>
 
     <audio id="match-sound" src="https://cdn.pixabay.com/audio/2021/08/04/audio_bb630cc098.mp3" preload="auto"></audio>
+
+    <div id="tour-modal" class="overlay-screen hidden">
+        <button class="close-tour-btn" onclick="closeTour()">✕ BACK TO SCANNER</button>
+        <iframe id="tour-iframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
 
     <div id="home-page" class="overlay-screen">
         <div class="main-card">
@@ -231,8 +154,7 @@
                 </div>
                 <span style="font-size: 10px; font-weight: 700; letter-spacing: 2px; opacity: 0.6;">TUTORIAL PREVIEW</span>
             </div>
-                <button class="skip-btn-aesthetic" onclick="startScanner()">Skip Tutorial</button>
-            </div>
+            <button class="skip-btn-aesthetic" onclick="startScanner()">Skip Tutorial</button>
         </div>
     </div>
 
@@ -272,7 +194,7 @@
     setInterval(nextSlide, 4000);
 
     const stations = [
-     { name: "Map", thumb: "Assets/A1_Map.jpg", link: "https://jmflorencio.github.io/BagView_Botanical_Map/" },
+        { name: "Map", thumb: "Assets/A1_Map.jpg", link: "https://jmflorencio.github.io/BagView_Botanical_Map/" },
         { name: "Main Entrance", thumb: "Assets/A2_Main Entrance.png", link: "https://jmflorencio.github.io/BagView_Botanical_Map/" },
         { name: "Arbor", thumb: "Assets/Arbor.png", link: "https://tour.panoee.net/69b7b676cd5918466513b640" },
         { name: "Cactus & Succulents", thumb: "Assets/Cactus&Succulents.png", link: "https://tour.panoee.net/69b7b991cd59184ead13b71f" },
@@ -289,6 +211,7 @@
         { name: "Philippine-Thailand Friendship Garden", thumb: "Assets/Philippine-Thailand Frienship Garden.png", link: "https://tour.panoee.net/69b184dfa0e1d16f1a9e388d/69b187aba0e1d18afb9e38fb" },
         { name: "PMSEA Garden", thumb: "Assets/PMSEA%20Garden.png", link: "https://tour.panoee.net/69b7b586a3e4d741fdc8db26" }
     ];
+
     function goToTutorial() {
         document.getElementById('home-page').classList.add('hidden');
         document.getElementById('tutorial-page').classList.remove('hidden');
@@ -298,6 +221,15 @@
         document.getElementById('tutorial-page').classList.add('hidden');
         document.getElementById('ui-layer').classList.remove('hidden');
         initExperience();
+    }
+
+    // NEW: Function to close tour and return to scanner
+    function closeTour() {
+        const modal = document.getElementById('tour-modal');
+        const iframe = document.getElementById('tour-iframe');
+        modal.classList.add('hidden');
+        iframe.src = ""; // Stop the tour in background
+        document.getElementById('gps-status').innerText = "SCANNING...";
     }
 
     function initExperience() {
@@ -317,11 +249,18 @@
                 document.getElementById('match-sound').play();
                 document.getElementById('gps-status').innerText = "MATCHED: " + s.name;
                 document.getElementById('dock').classList.add('expanded');
+                
                 const card = document.getElementById(`card-${i}`);
                 card.classList.add('found');
                 card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
                 
-                setTimeout(() => { window.location.href = s.link; }, 1200);
+                // UPDATED: Open in iframe instead of leaving page
+                setTimeout(() => { 
+                    const modal = document.getElementById('tour-modal');
+                    const iframe = document.getElementById('tour-iframe');
+                    iframe.src = s.link;
+                    modal.classList.remove('hidden');
+                }, 1200);
             });
             container.appendChild(entity);
         });
