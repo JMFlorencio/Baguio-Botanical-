@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BAGVIEW | AR Eco-Tourism</title>
     
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
@@ -17,48 +17,14 @@
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        /* FIX: Using svh (small viewport height) prevents the Messenger 'squish' */
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            width: 100%; 
-            height: 100vh;
-            height: 100svh; 
-            overflow: hidden; 
-            font-family: 'Segoe UI', sans-serif; 
-            background: var(--bg-page);
-        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
 
-        /* FIX: Ensure video covers the dynamic background correctly */
-        video { 
-            position: fixed !important; 
-            top: 0 !important; 
-            left: 0 !important; 
-            width: 100% !important; 
-            height: 100% !important; 
-            object-fit: cover !important; 
-            z-index: -5 !important; 
-        }
+        video { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; object-fit: cover !important; z-index: -5 !important; }
 
-        .overlay-screen { 
-            position: fixed; 
-            inset: 0; 
-            z-index: 2000; 
-            background: var(--bg-page); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            transition: 0.8s ease;
-            height: 100svh;
-        }
-
+        .overlay-screen { position: fixed; inset: 0; z-index: 2000; background: var(--bg-page); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.8s ease; }
         .hidden { display: none !important; opacity: 0; pointer-events: none; }
         
-        /* FIX: Modal now occupies full width for the station link */
-        #tour-modal { z-index: 3000; background: white; width: 100%; height: 100svh; }
-        
+        #tour-modal { z-index: 3000; background: white; }
         .close-tour-btn { 
             position: absolute; top: 20px; right: 20px; z-index: 3100; 
             padding: 12px 20px; background: var(--accent); color: white; 
@@ -66,11 +32,8 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer;
         }
 
-        /* FIX: Iframe width corrected to 100% for better station viewing */
-        #tour-iframe { width: 100% !important; height: 100% !important; border: none; }
-
-        .main-card { width: 92%; height: 90%; background: #F2F5F7; border-radius: 40px; padding: 15px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .carousel-viewport { width: 100%; height: 60%; border-radius: 35px; position: relative; overflow: hidden; }
+        .main-card { width: 90%; height: 92%; background: #F2F5F7; border-radius: 40px; padding: 15px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .carousel-viewport { width: 100%; height: 62%; border-radius: 35px; position: relative; overflow: hidden; }
         .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; background-size: cover; background-position: center; }
         .slide.active { opacity: 1; }
         
@@ -78,8 +41,8 @@
         #slide2 { background-image: url('Assets/A1_Map.jpg'); }
         #slide3 { background-image: url('Assets/Cordillera%20Village.png'); }
 
-        .floating-badge { position: absolute; top: 20px; left: 20px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; z-index: 10; text-transform: uppercase; letter-spacing: 0.5px; }
-        .hero-info-overlay { position: absolute; bottom: 30px; left: 20px; color: white; z-index: 5; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .floating-badge { position: absolute; top: 230px; left: 20px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; z-index: 10; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hero-info-overlay { position: absolute; bottom: 30px; left: 20px; color: white; z-index: 5; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .hero-info-overlay h2 { font-size: 28px; margin: 0; font-weight: 800; }
         .hero-info-overlay p { font-size: 13px; margin: 5px 0 0; opacity: 0.9; }
 
@@ -87,26 +50,30 @@
         .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.4); border-radius: 50%; transition: 0.3s; }
         .dot.active { width: 22px; background: var(--accent); border-radius: 10px; }
 
-        .hero-text-area { flex: 1; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .hero-title { font-size: 24px; font-weight: 800; color: #222; margin-bottom: 25px; line-height: 1.2; }
+        .hero-text-area { flex: 1; padding: 30px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .hero-title { font-size: 26px; font-weight: 800; color: #222; margin-bottom: 40px; line-height: 1.2; }
 
-        .get-started-btn { width: 100%; height: 70px; background: var(--accent); color: white; border: none; border-radius: 40px; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding-right: 60px; position: relative; cursor: pointer; }
-        .btn-arrow-circle { position: absolute; right: 8px; width: 54px; height: 54px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .get-started-btn { width: 100%; height: 75px; background: var(--accent); color: white; border: none; border-radius: 40px; font-size: 19px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding-right: 70px; position: relative; cursor: pointer; }
+        .btn-arrow-circle { position: absolute; right: 10px; width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-        .nav-bar { position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
-        .cam-btn { width: 65px; height: 65px; border-radius: 50%; background: #ffffff; border: 4px solid #eee; display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .tutorial-video-box { width: 100%; max-width: 400px; aspect-ratio: 16/9; background: #111; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; gap: 12px; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .skip-btn-aesthetic { margin-top: 15px; padding: 12px 35px; border: 1.5px solid #ddd; border-radius: 50px; color: #777; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; background: transparent; cursor: pointer; transition: all 0.3s ease; }
+
+        .nav-bar { position: fixed; bottom: 50px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+        .cam-btn { width: 70px; height: 70px; border-radius: 50%; background: #ffffff; border: 4px solid #eee; display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .cam-btn.active { border-color: var(--accent); background: var(--accent); }
 
-        .bottom-dock { position: fixed; bottom: 0; width: 100%; height: 300px; z-index: 120; transform: translateY(240px); transition: 0.4s; background: white; border-radius: 30px 30px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); }
-        .bottom-dock.expanded { transform: translateY(0); }
-        .drag-handle { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; cursor: grab; }
-        .handle-bar { width: 40px; height: 4px; background: rgba(0, 0, 0, 0.1); border-radius: 10px; }
+        .bottom-dock { position: fixed; bottom: 0; width: 100%; height: 320px; z-index: 120; transform: translateY(260px); transition: 0.4s; }
+        .bottom-dock.expanded { background: white; transform: translateY(0); border-radius: 30px 30px 0 0; }
+        .drag-handle { width: 100%; height: 60px; display: flex; justify-content: center; align-items: center; }
+        .handle-bar { width: 50px; height: 5px; background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
 
-        .scroll-container { display: flex; gap: 12px; overflow-x: auto; padding: 0 20px 30px; width: 100%; scrollbar-width: none; opacity: 1; }
-        .station-card { min-width: 120px; height: 160px; background: #fdfdfd; border-radius: 20px; overflow: hidden; border: 1px solid #eee; flex-shrink: 0; transition: 0.3s; }
+        .scroll-container { display: flex; gap: 12px; overflow-x: auto; padding: 10px 20px 30px; width: 100%; scrollbar-width: none; opacity: 0; transition: 0.3s; }
+        .bottom-dock.expanded .scroll-container { opacity: 1; }
+        .station-card { min-width: 110px; height: 140px; background: #f9f9f9; border-radius: 16px; overflow: hidden; border: 1px solid #eee; flex-shrink: 0; }
         .station-card.found { border: 3px solid var(--accent); transform: scale(1.05); }
 
-        .gps-display { position: absolute; top: 40px; left: 20px; background: var(--glass); backdrop-filter: var(--blur); padding: 10px 18px; border-radius: 12px; z-index: 100; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .gps-display { position: absolute; top: 40px; left: 20px; background: var(--glass); backdrop-filter: var(--blur); padding: 10px 18px; border-radius: 12px; z-index: 100; display: flex; align-items: center; gap: 10px; }
         .pulse.live { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse-scanning 1.5s infinite; }
         @keyframes pulse-scanning { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
     </style>
@@ -116,8 +83,8 @@
     <audio id="match-sound" src="https://cdn.pixabay.com/audio/2021/08/04/audio_bb630cc098.mp3" preload="auto"></audio>
 
     <div id="tour-modal" class="overlay-screen hidden">
-        <button class="close-tour-btn" onclick="closeTour()">CLOSE</button>
-        <iframe id="tour-iframe" src=""></iframe>
+        <button class="close-tour-btn" onclick="closeTour()">X</button>
+        <iframe id="tour-iframe" src="" style="width: 80%; height: 100%; border: none;"></iframe>
     </div>
 
     <div id="home-page" class="overlay-screen">
@@ -130,6 +97,7 @@
                         <p>Step into Baguio's vibrant floral heart.</p>
                     </div>
                 </div>
+                
                 <div class="slide" id="slide2">
                     <div class="floating-badge">Interactive</div>
                     <div class="hero-info-overlay">
@@ -137,6 +105,7 @@
                         <p>Unlock stories using your camera lens.</p>
                     </div>
                 </div>
+
                 <div class="slide" id="slide3">
                     <div class="floating-badge">Cultural</div>
                     <div class="hero-info-overlay">
@@ -144,14 +113,17 @@
                         <p>Discover the heritage of the mountains.</p>
                     </div>
                 </div>
+
                 <div class="indicators">
                     <div class="dot active"></div>
                     <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
             </div>
+
             <div class="hero-text-area">
                 <h1 class="hero-title">Let's Enjoy The<br>Beautiful World!</h1>
+                
                 <button class="get-started-btn" onclick="goToTutorial()">
                     Get Started
                     <div class="btn-arrow-circle">
@@ -171,11 +143,14 @@
                 <h2 style="font-weight: 900; margin-bottom: 8px; color: #111; font-size: 26px;">Quick Guide</h2>
                 <p style="color: #888; font-size: 14px; line-height: 1.4;">Point your camera at the markers <br> to unlock hidden stories.</p>
             </div>
-            <div style="width: 100%; aspect-ratio: 16/9; background: #111; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff;">
-                <svg width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <span style="font-size: 10px; font-weight: 700; margin-top: 10px; opacity: 0.6;">TUTORIAL PREVIEW</span>
+
+            <div class="tutorial-video-box">
+                <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <span style="font-size: 10px; font-weight: 700; letter-spacing: 2px; opacity: 0.6;">TUTORIAL PREVIEW</span>
             </div>
-            <button class="get-started-btn" style="padding-right:0;" onclick="startScanner()">Start Scanning</button>
+            <button class="skip-btn-aesthetic" onclick="startScanner()">Skip Tutorial</button>
         </div>
     </div>
 
@@ -190,12 +165,12 @@
         </div>
         <div class="nav-bar">
             <div class="cam-btn active" id="cam-toggle" onclick="toggleScanner()">
-                <svg viewBox="0 0 24 24" width="28" fill="#fff"><path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm7-4h-2.69l-1.83-2H9.52l-1.83 2H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-7 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                <svg viewBox="0 0 24 24" width="30" fill="#fff"><path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm7-4h-2.69l-1.83-2H9.52l-1.83 2H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-7 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
             </div>
         </div>
     </div>
 
-    <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: false; uiLoading: no; uiScanning: no;" embedded renderer="transparent: true; alpha: true; colorManagement: true;" vr-mode-ui="enabled: false">
+    <a-scene mindar-image="imageTargetSrc: targets.mind; autoStart: false; uiLoading: no; uiScanning: no;" embedded renderer="transparent: true; alpha: true;" vr-mode-ui="enabled: false">
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
         <a-entity id="target-container"></a-entity>
     </a-scene>
@@ -241,10 +216,6 @@
     function startScanner() {
         document.getElementById('tutorial-page').classList.add('hidden');
         document.getElementById('ui-layer').classList.remove('hidden');
-        
-        // FIX: Force aspect ratio recalculation for MindAR when opening in webviews
-        window.dispatchEvent(new Event('resize'));
-        
         initExperience();
     }
 
@@ -259,7 +230,6 @@
     function initExperience() {
         const root = document.getElementById('gallery-root');
         const container = document.getElementById('target-container');
-        root.innerHTML = '';
         
         stations.forEach((s, i) => {
             root.innerHTML += `<div class="station-card" id="card-${i}">
@@ -284,7 +254,7 @@
                     const iframe = document.getElementById('tour-iframe');
                     iframe.src = s.link;
                     modal.classList.remove('hidden');
-                }, 1000);
+                }, 1200);
             });
             container.appendChild(entity);
         });
@@ -299,7 +269,6 @@
         if(!btn.classList.contains('active')) {
             await sceneEl.systems['mindar-image-system'].start();
             btn.classList.add('active');
-            window.dispatchEvent(new Event('resize'));
         } else {
             sceneEl.systems['mindar-image-system'].stop();
             btn.classList.remove('active');
@@ -320,9 +289,9 @@
         window.addEventListener('touchmove', (e) => {
             if (!isDragging) return;
             let diff = e.touches[0].clientY - startY;
-            let move = dock.classList.contains('expanded') ? diff : 240 + diff;
+            let move = dock.classList.contains('expanded') ? diff : 260 + diff;
             if (move < 0) move = 0;
-            if (move > 240) move = 240;
+            if (move > 260) move = 260;
             dock.style.transform = `translateY(${move}px)`;
         });
 
@@ -336,7 +305,7 @@
                 dock.style.transform = `translateY(0)`;
             } else {
                 dock.classList.remove('expanded');
-                dock.style.transform = `translateY(240px)`;
+                dock.style.transform = `translateY(260px)`;
             }
         });
     }
