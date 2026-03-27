@@ -26,12 +26,27 @@
         
         /* Modal for the Tour Iframe */
         #tour-modal { z-index: 3000; background: white; }
+        
+        /* Updated Close Icon Style */
         .close-tour-btn { 
-            position: absolute; top: 20px; right: 20px; z-index: 3100; 
-            padding: 12px 20px; background: var(--accent); color: white; 
-            border: none; border-radius: 50px; font-weight: 800; font-size: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer;
+            position: absolute; 
+            top: 25px; 
+            right: 20px; 
+            z-index: 3100; 
+            width: 45px;
+            height: 45px;
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            border-radius: 50%; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+            cursor: pointer;
+            transition: transform 0.2s;
         }
+        .close-tour-btn:active { transform: scale(0.9); }
 
         /* --- WELCOME PAGE --- */
         .main-card { width: 90%; height: 92%; background: #F2F5F7; border-radius: 40px; padding: 15px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
@@ -87,7 +102,12 @@
     <audio id="match-sound" src="https://cdn.pixabay.com/audio/2021/08/04/audio_bb630cc098.mp3" preload="auto"></audio>
 
     <div id="tour-modal" class="overlay-screen hidden">
-        <button class="close-tour-btn" onclick="closeTour()">✕ BACK TO SCANNER</button>
+        <button class="close-tour-btn" onclick="closeTour()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
         <iframe id="tour-iframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
 
@@ -223,12 +243,11 @@
         initExperience();
     }
 
-    // NEW: Function to close tour and return to scanner
     function closeTour() {
         const modal = document.getElementById('tour-modal');
         const iframe = document.getElementById('tour-iframe');
         modal.classList.add('hidden');
-        iframe.src = ""; // Stop the tour in background
+        iframe.src = "";
         document.getElementById('gps-status').innerText = "SCANNING...";
     }
 
@@ -254,7 +273,6 @@
                 card.classList.add('found');
                 card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
                 
-                // UPDATED: Open in iframe instead of leaving page
                 setTimeout(() => { 
                     const modal = document.getElementById('tour-modal');
                     const iframe = document.getElementById('tour-iframe');
